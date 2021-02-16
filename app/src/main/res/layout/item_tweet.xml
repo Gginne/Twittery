@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="5dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -13,14 +12,17 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvScreenName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/ivProfileImage"
         android:text="User screen name" />
 
@@ -31,16 +33,24 @@
         android:layout_below="@id/tvScreenName"
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
+        android:layout_marginBottom="7dp"
         android:layout_toEndOf="@id/ivProfileImage"
         android:text="Tweet Body" />
 
     <TextView
         android:id="@+id/tvTimestamp"
-        android:layout_width="47dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="194dp"
-        android:layout_marginEnd="-4dp"
-        android:layout_toEndOf="@id/tvScreenName"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
         android:text="time" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CDCDCD" />
+
+
 </RelativeLayout>
