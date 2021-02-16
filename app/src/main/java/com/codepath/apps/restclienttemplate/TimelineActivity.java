@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,13 +23,26 @@ public class TimelineActivity extends AppCompatActivity {
     public static final String TAG = "TimelineActivity";
     TwitterClient client;
     RecyclerView rvTweets;
+    SwipeRefreshLayout swipeContainer;
     List<Tweet> tweets;
     TweetsAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-
+        //Set pull up refresh
+        swipeContainer = findViewById(R.id.swipeContainer);
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here
+                populateHomeTimeline();
+            }
+        });
         client = TwitterApp.getRestClient(this);
         //Find RecyclerView
         rvTweets = findViewById(R.id.rvTweets);
@@ -47,8 +61,9 @@ public class TimelineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 JSONArray jsonArray = json.jsonArray;
                 try {
-                    tweets.addAll(Tweet.fromJsonArray(jsonArray));
-                    adapter.notifyDataSetChanged();
+                    adapter.clear();
+                    adapter.addAll(Tweet.fromJsonArray(jsonArray));
+                    swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "JSON Exception: ", e);
                     e.printStackTrace();
@@ -61,4 +76,5 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
     }
+
 }
