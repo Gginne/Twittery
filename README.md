@@ -31,6 +31,7 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
+![WALKTHROUGH](https://media.giphy.com/media/nMh7F2Z7lk9awXUXA5/source.gif)
 
 ## Notes
 

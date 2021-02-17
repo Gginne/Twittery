@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +41,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Tweet tweet = tweets.get(position);
         holder.bind(tweet);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.tweetContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, TweetDetailActivity.class);
@@ -72,9 +73,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         TextView tvTimestamp;
+        RelativeLayout tweetContainer;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
+            tweetContainer = itemView.findViewById(R.id.tweetContainer);
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
