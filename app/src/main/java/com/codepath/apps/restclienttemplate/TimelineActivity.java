@@ -1,11 +1,13 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,8 +24,9 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements ComposeDialogFragment.TweetPublishListener {
     public static final String TAG = "TimelineActivity";
+    private final int REQUEST_CODE = 20;
     TwitterClient client;
     RecyclerView rvTweets;
     SwipeRefreshLayout swipeContainer;
@@ -83,14 +86,24 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.compose){
             showComposeDialog();
+
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void showComposeDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        ComposeDialogFragment composeDialogFragment = ComposeDialogFragment.newInstance("Some Title");
+        ComposeDialogFragment composeDialogFragment = ComposeDialogFragment.newInstance("Compose Tweet");
         composeDialogFragment.show(fm, "fragment_compose");
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void loadMoreData() {
@@ -135,4 +148,9 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onPublishTweet(Tweet tweet) {
+        tweets.add(0, tweet);
+        adapter.notifyItemInserted(0);
+    }
 }
