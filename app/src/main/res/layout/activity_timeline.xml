@@ -34,7 +34,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         app:backgroundTint="#1DA1F2"
-        android:src="@android:drawable/ic_menu_edit"
+        android:src="@drawable/ic_compose_icon"
         app:layout_anchor="@+id/rvTweets"
         app:layout_anchorGravity="bottom|right|end" />
 
