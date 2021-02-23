@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import com.codepath.apps.restclienttemplate.TimeFormatter;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -21,6 +22,7 @@ import java.util.List;
 @Entity(foreignKeys = @ForeignKey(entity=User.class, parentColumns="id", childColumns="userId"))
 public class Tweet {
     @ColumnInfo
+    @PrimaryKey
     public long id;
     @ColumnInfo
     public String body;

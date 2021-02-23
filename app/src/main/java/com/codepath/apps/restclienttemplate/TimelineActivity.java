@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.TweetDao;
+import com.codepath.apps.restclienttemplate.models.TweetWithUser;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,6 +40,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     EndlessRecyclerViewScrollListener scrollListener;
     List<Tweet> tweets;
     TweetsAdapter adapter;
+    TweetDao tweetDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +62,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
             }
         });
         client = TwitterApp.getRestClient(this);
+        tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
         //Find RecyclerView
         rvTweets = findViewById(R.id.rvTweets);
         //Initialize list of tweets and adapter
@@ -74,6 +80,17 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
             }
         };
         rvTweets.addOnScrollListener(scrollListener);
+        //Query for existing tweets
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<TweetWithUser> tweetWithUsers = tweetDao.recentItems();
+                List<Tweet> tweetsFromDB = TweetWithUser.getTweetList(tweetWithUsers);
+                adapter.clear();
+                adapter.addAll(tweetsFromDB);
+            }
+        });
+
         populateHomeTimeline();
 
         composeFAB = findViewById(R.id.composeFAB);
@@ -93,13 +110,6 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     private void loadMoreData() {
         client.getNextPageOfTweets(new JsonHttpResponseHandler() {
@@ -127,9 +137,18 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 JSONArray jsonArray = json.jsonArray;
                 try {
+                    final List<Tweet> tweetsFromNetwork = Tweet.fromJsonArray(jsonArray);
                     adapter.clear();
-                    adapter.addAll(Tweet.fromJsonArray(jsonArray));
+                    adapter.addAll(tweetsFromNetwork);
                     swipeContainer.setRefreshing(false);
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            List<User> usersFromNetwork = User.fromJsonTweetArray(tweetsFromNetwork);
+                            tweetDao.insertModel(usersFromNetwork.toArray(new User[0]));
+                            tweetDao.insertModel(tweetsFromNetwork.toArray(new Tweet[0]));
+                        }
+                    });
                 } catch (JSONException e) {
                     Log.e(TAG, "JSON Exception: ", e);
                     e.printStackTrace();
