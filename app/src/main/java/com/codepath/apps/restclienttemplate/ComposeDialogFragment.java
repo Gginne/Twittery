@@ -2,6 +2,8 @@ package com.codepath.apps.restclienttemplate;
 
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,10 +26,11 @@ import okhttp3.Headers;
 // ...
 
 public class ComposeDialogFragment extends DialogFragment {
-    public static final int MAX_TWEET_LENGTH = 140;
+    public static final int MAX_TWEET_LENGTH = 280;
     private static final String TAG = "ComposeDialog";
     private EditText composeInput;
     private Button composeBtn;
+    private TextView composeChars;
     TwitterClient client;
 
     // 1. Defines the listener interface with a method passing back data result.
@@ -65,6 +69,32 @@ public class ComposeDialogFragment extends DialogFragment {
         // Get elements from view
         composeInput = (EditText) view.findViewById(R.id.compose_input);
         composeBtn = (Button) view.findViewById(R.id.compose_btn);
+        composeChars = (TextView) view.findViewById(R.id.compose_chars);
+        //Set listener for updating char count
+        composeInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Fires right as the text is being changed (even supplies the range of text)
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                if(String.valueOf(s).length() == 280){
+                    return;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int tweetChars = String.valueOf(s).length();
+                int remainingChars = MAX_TWEET_LENGTH-tweetChars;
+
+                composeChars.setText(String.valueOf(remainingChars));
+
+            }
+        });
         //Set Twitter client
         client = TwitterApp.getRestClient(getActivity());
         //Set click listener for button
