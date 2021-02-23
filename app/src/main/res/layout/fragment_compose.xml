@@ -22,7 +22,8 @@
         android:gravity="start|top"
         android:hint="What's happening?"
         android:inputType="textMultiLine"
-        android:minLines="5" />
+        android:maxLength="280"
+        android:minLines="7" />
 
     <Button
         android:id="@+id/compose_btn"

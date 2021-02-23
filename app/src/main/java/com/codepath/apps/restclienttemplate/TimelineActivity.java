@@ -12,9 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +31,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     private final int REQUEST_CODE = 20;
     TwitterClient client;
     RecyclerView rvTweets;
+    FloatingActionButton composeFAB;
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
     List<Tweet> tweets;
@@ -37,6 +40,9 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_twitter_icon);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
         //Set pull up refresh
         swipeContainer = findViewById(R.id.swipeContainer);
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -69,27 +75,16 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         };
         rvTweets.addOnScrollListener(scrollListener);
         populateHomeTimeline();
+
+        composeFAB = findViewById(R.id.composeFAB);
+        composeFAB.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showComposeDialog();
+            }
+        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.ic_twitter_icon);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.compose){
-            showComposeDialog();
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void showComposeDialog() {
         FragmentManager fm = getSupportFragmentManager();

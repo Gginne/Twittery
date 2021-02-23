@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TimelineActivity">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,4 +25,17 @@
             android:paddingEnd="2dp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:layout_behavior="com.codepath.apps.restclienttemplate.ScrollAwareFABBehavior"
+        android:id="@+id/composeFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:backgroundTint="#1DA1F2"
+        android:src="@android:drawable/ic_menu_edit"
+        app:layout_anchor="@+id/rvTweets"
+        app:layout_anchorGravity="bottom|right|end" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
