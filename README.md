@@ -54,7 +54,7 @@ The following **additional** features are implemented:
 
 Part 1
 
-![WALKTHROUGH](https://media.giphy.com/media/nMh7F2Z7lk9awXUXA5/source.gif)
+![WALKTHROUGH](https://media.giphy.com/media/nMh7F2Z7lk9awXUXA5/giphy.gif)
 
 Part 2
 
