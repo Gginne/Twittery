@@ -58,7 +58,7 @@ Part 1
 
 Part 2
 
-![WALKTHROUGH](https://media.giphy.com/media/y7MG5VCExSbEjJabNg/giphy.gif)
+![WALKTHROUGH2](https://media.giphy.com/media/y7MG5VCExSbEjJabNg/giphy.gif)
 
 ## Notes
 
