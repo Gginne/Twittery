@@ -2,7 +2,7 @@
 
 Twittery is an android app that allows a user to view his Twitter timeline. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: 40 hours spent in total
+Time spent: 40 hours spent in total (Part 1: 30 hours // Part 2: 10 hours)
 
 ## User Stories
 
@@ -41,7 +41,7 @@ The following **optional** features are implemented:
 - [x] The "Compose" action is moved to a FloatingActionButton instead of on the AppBar
 - [x] Compose tweet functionality is build using modal overlay
 - [ ] Use Parcelable instead of Serializable using the popular [Parceler library](http://guides.codepath.org/android/Using-Parceler).
-- [ ] User can **open the twitter app offline and see last loaded tweets**. Persisted in SQLite tweets are refreshed on every application launch. While "live data" is displayed when app can get it from Twitter API, it is also saved for use in offline mode.
+- [x] User can **open the twitter app offline and see last loaded tweets**. Persisted in SQLite tweets are refreshed on every application launch. While "live data" is displayed when app can get it from Twitter API, it is also saved for use in offline mode.
 - [ ] When a user leaves the compose view without publishing and there is existing text, prompt to save or delete the draft. If saved, the draft should then be **persisted to disk** and can later be resumed from the compose view.
 - [ ] Enable your app to receive implicit intents from other apps. When a link is shared from a web browser, it should pre-fill the text and title of the web page when composing a tweet.
 
@@ -57,9 +57,12 @@ Part 1
 
 Part 2
 
+![WALKTHROUGH](https://media.giphy.com/media/y7MG5VCExSbEjJabNg/giphy.gif)
+
 ## Notes
 
 Styling in general proved challenging, specially the appbar and colors
+The data persistance with room was kinda difficult and extensive.
 
 ## Open-source libraries used
 
